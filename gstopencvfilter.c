@@ -101,8 +101,8 @@ gst_opencvfilter_class_init (GstOpencvfilterClass * klass)
         gst_caps_from_string (VIDEO_SINK_CAPS)));
 
   gst_element_class_set_static_metadata (GST_ELEMENT_CLASS(klass),
-      "FIXME Long name", "Generic", "FIXME Description",
-      "FIXME <fixme@example.com>");
+      "opencvfilter", "Generic", "OpenCV Video Filter",
+      "Peter J. Torelli <peter.j.torelli@gmail.com>");
 
   gobject_class->set_property = gst_opencvfilter_set_property;
   gobject_class->get_property = gst_opencvfilter_get_property;
