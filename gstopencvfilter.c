@@ -1,5 +1,5 @@
 /* GStreamer
- * Copyright (C) 2019 FIXME <fixme@example.com>
+ * Copyright (C) 2019 Peter J. Torelli <peter.j.torelli@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -19,14 +19,14 @@
 /**
  * SECTION:element-gstopencvfilter
  *
- * The opencvfilter element does FIXME stuff.
+ * The opencvfilter element inserts OpenCV into GStreamer.
  *
  * <refsect2>
  * <title>Example launch line</title>
  * |[
- * gst-launch-1.0 -v fakesrc ! opencvfilter ! FIXME ! fakesink
+ * gst-launch-1.0 -v videotestsrc ! opencvfilter ! videoconvert ! ximagesink
  * ]|
- * FIXME Describe what the pipeline does.
+ * The pipeline is a simple transform call.
  * </refsect2>
  */
 
@@ -213,45 +213,17 @@ gst_opencvfilter_transform_frame (GstVideoFilter * filter, GstVideoFrame * infra
 {
   GstOpencvfilter *opencvfilter = GST_OPENCVFILTER (filter);
 
-  gint i, j, height;
-  gint width, stride, row_wrap;
-  gint pixel_stride;
-  gint offsets[3];
-  gint size;
+  gint height;
+  gint width;
   guint8 *idata;
   guint8 *odata;
 
   idata = GST_VIDEO_FRAME_PLANE_DATA (inframe, 0);
   odata = GST_VIDEO_FRAME_PLANE_DATA (outframe, 0);
-  stride = GST_VIDEO_FRAME_PLANE_STRIDE (inframe, 0);
   width = GST_VIDEO_FRAME_COMP_WIDTH (inframe, 0);
   height = GST_VIDEO_FRAME_COMP_HEIGHT (inframe, 0);
-  size = stride * height;
-
-  offsets[0] = GST_VIDEO_FRAME_COMP_OFFSET (inframe, 0);
-  offsets[1] = GST_VIDEO_FRAME_COMP_OFFSET (inframe, 1);
-  offsets[2] = GST_VIDEO_FRAME_COMP_OFFSET (inframe, 2);
 
   openCvInterface(height, width, idata, odata);
-  /*
-  pixel_stride = GST_VIDEO_FRAME_COMP_PSTRIDE (inframe, 0);
-  row_wrap = stride - pixel_stride * width;
-  GST_DEBUG_OBJECT (opencvfilter, "transform_frame");
-  for (i = 0; i < height; i++) {
-    for (j = 0; j < width; j++) {
-      r = idata[offsets[0]];
-      g = idata[offsets[1]];
-      b = idata[offsets[2]];
-      odata[offsets[0]] = CLAMP (0, 0, 255);
-      odata[offsets[1]] = CLAMP (g, 0, 255);
-      odata[offsets[2]] = CLAMP (0, 0, 255);
-      idata += pixel_stride;
-      odata += pixel_stride;
-    }
-    idata += row_wrap;
-    odata += row_wrap;
-  }
-  */
 
   return GST_FLOW_OK;
 }
@@ -281,21 +253,21 @@ plugin_init (GstPlugin * plugin)
    remove these, as they're always defined.  Otherwise, edit as
    appropriate for your external plugin package. */
 #ifndef VERSION
-#define VERSION "0.0.FIXME"
+#define VERSION "0.0.1"
 #endif
 #ifndef PACKAGE
-#define PACKAGE "FIXME_package"
+#define PACKAGE "opencv"
 #endif
 #ifndef PACKAGE_NAME
-#define PACKAGE_NAME "FIXME_package_name"
+#define PACKAGE_NAME "OpenCV Tools"
 #endif
 #ifndef GST_PACKAGE_ORIGIN
-#define GST_PACKAGE_ORIGIN "http://FIXME.org/"
+#define GST_PACKAGE_ORIGIN "no origin"
 #endif
 
 GST_PLUGIN_DEFINE (GST_VERSION_MAJOR,
     GST_VERSION_MINOR,
     opencvfilter,
-    "FIXME plugin description",
+    "OpenCV Video Filter",
     plugin_init, VERSION, "LGPL", PACKAGE_NAME, GST_PACKAGE_ORIGIN)
 
