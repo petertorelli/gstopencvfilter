@@ -44,7 +44,7 @@ GST_DEBUG_CATEGORY_STATIC (gst_opencvfilter_debug_category);
 
 /* prototypes */
 
-int openCvInterface(int height, int width, char *iuffer, char *obuffer);
+int openCvInterface(int height, int width, uint8_t *iuffer, uint8_t *obuffer);
 
 static void gst_opencvfilter_set_property (GObject * object,
     guint property_id, const GValue * value, GParamSpec * pspec);
@@ -218,8 +218,8 @@ gst_opencvfilter_transform_frame (GstVideoFilter * filter, GstVideoFrame * infra
   guint8 *idata;
   guint8 *odata;
 
-  idata = GST_VIDEO_FRAME_PLANE_DATA (inframe, 0);
-  odata = GST_VIDEO_FRAME_PLANE_DATA (outframe, 0);
+  idata = (guint8 *) GST_VIDEO_FRAME_PLANE_DATA (inframe, 0);
+  odata = (guint8 *) GST_VIDEO_FRAME_PLANE_DATA (outframe, 0);
   width = GST_VIDEO_FRAME_COMP_WIDTH (inframe, 0);
   height = GST_VIDEO_FRAME_COMP_HEIGHT (inframe, 0);
 
